@@ -36,7 +36,7 @@ Ce projet contient une application MapReduce simple développée avec Apache Had
             context.write(new Text(m), new IntWritable(1));
         }
     }
-   }```
+   }
 
 
 4. Code source du WordCountReducer
@@ -52,7 +52,7 @@ Ce projet contient une application MapReduce simple développée avec Apache Had
         }
         context.write(key, new IntWritable(somme));
     }
-   }```
+   }
 
 5. Créer un fichier avec un contenu :
 
@@ -83,7 +83,7 @@ Ce projet contient une application MapReduce simple développée avec Apache Had
         <value>HADOOP_MAPRED_HOME=/opt/hadoop</value>
     </property>
    </configuration>
-   EOF ```
+   EOF 
 
 
 8. Execution
