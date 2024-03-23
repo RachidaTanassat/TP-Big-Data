@@ -4,29 +4,26 @@ Ce projet contient deux exercices d'application de MapReduce développés avec A
 
 ## Structure du Projet
    src
-    ├───main
-    │   ├───java
-    │   │   └───org
-    │   │       └───exemple
-    │   │           ├───exercice1
-    │   │           │   ├───job1
-    │   │           │   │       Driver.java
-    │   │           │   │       JobMapper.java
-    │   │           │   │       JobReducer.java
-    │   │           │   │
-    │   │           │   └───job2
-    │   │           │           Driver.java
-    │   │           │           JobMapper.java
-    │   │           │           JobReducer.java
-    │   │           │
-    │   │           ├───exercice2
-    │   │                   Driver.java
-    │   │                   JobMapper.java
-    │   │                   JobReducer.java
-    │   │
-    │   └───resources
-    └───test
-        └───java
+├── main
+│ ├── java
+│ │ └── com
+│ │ └── slimani_ce
+│ │ ├── exercice1
+│ │ │ ├── job1
+│ │ │ │ ├── Driver.java
+│ │ │ │ ├── JobMapper.java
+│ │ │ │ └── JobReducer.java
+│ │ │ └── job2
+│ │ │ ├── Driver.java
+│ │ │ ├── JobMapper.java
+│ │ │ └── JobReducer.java
+│ │ └── exercice2
+│ │ ├── Driver.java
+│ │ ├── JobMapper.java
+│ │ └── JobReducer.java
+│ └── resources
+└── test
+└── java
 
 ## Exercice 1 
 ### Job1
