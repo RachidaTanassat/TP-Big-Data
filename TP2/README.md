@@ -173,4 +173,86 @@ Ce projet contient deux exercices d'application de MapReduce développés avec A
 <img width="290" alt="13" src="https://github.com/RachidaTanassat/TP-Big-Data/assets/85264433/2cd034c3-37e4-473b-97d6-68742ad9387a">
 
 
+## Exercice 2
+
+1. Code source du Driver
+```java
+   public class Driver {
+    public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
+        
+        Configuration conf = new Configuration();
+        Job job = Job.getInstance(conf, "journaux_Web");
+
+        job.setJarByClass(Driver.class);
+        job.setMapperClass(JobMapper.class);
+        job.setReducerClass(JobReducer.class);
+
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(IntWritable.class);
+
+        job.setInputFormatClass(TextInputFormat.class);
+
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+        job.waitForCompletion(true);
+    }
+}
+```
    
+3. Code source du JobMapper
+   ```java
+   public class JobMapper extends Mapper<LongWritable, Text,Text,IntWritable> {
+    @Override
+    protected void map(LongWritable key, Text value, Mapper<LongWritable, Text, Text, IntWritable>.Context context) throws IOException, InterruptedException {
+
+        String[] tokens = value.toString().split(" ");
+        if (tokens.length >= 8) {
+            String ip = tokens[0];
+            String response = tokens[8];
+            if(response.equals("200")){
+                context.write(new Text(ip), new IntWritable(1));
+            }
+
+        }
+    }
+   }
+
+4. Code source du JobReducer
+   ```java
+   public class JobReducer extends Reducer<Text, IntWritable,Text,IntWritable> {
+    @Override
+    protected void reduce(Text key, Iterable<IntWritable> values, Reducer<Text, IntWritable, Text, IntWritable>.Context context) throws IOException, InterruptedException {
+        int totalRequests=0;
+        Iterator<IntWritable> it = values.iterator();
+        while (it.hasNext()){
+            totalRequests+=it.next().get();
+        }
+        context.write(key, new IntWritable(totalRequests));
+
+    }
+   }
+
+5. Créer un fichier avec un contenu :
+
+   ```bash
+   hdfs dfs -touchz /web.txt
+   hdfs dfs -appendToFile - web.txt
+   ```
+<img width="453" alt="15" src="https://github.com/RachidaTanassat/TP-Big-Data/assets/85264433/1ea545f7-64c7-4793-a6b9-be8832a39bd0">
+
+
+
+
+6. Execution
+   ```bash
+    hadoop jar TP2-1.0-SNAPSHOT.jar org.example.exercice1.job1.Driver /web.txt /resultats
+    ```
+  <img width="669" alt="16" src="https://github.com/RachidaTanassat/TP-Big-Data/assets/85264433/ec3a7cb1-9667-4edd-b4e1-c17852a51138">
+
+
+7. Résultats
+   ```bash
+   hdfs dfs -cat /resultats/part-r-00000
+   ```
+<img width="354" alt="17" src="https://github.com/RachidaTanassat/TP-Big-Data/assets/85264433/0b41f63b-9c3e-4455-b9b0-3aebd27018c1">
